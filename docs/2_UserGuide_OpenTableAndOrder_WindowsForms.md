@@ -1,4 +1,4 @@
-# Hướng dẫn mở bàn và gọi món trên Windows Forms
+# 2. Hướng dẫn mở bàn và gọi món trên Windows Forms
 
 ## Vai trò
 
