@@ -136,9 +136,9 @@ docker compose --env-file .\docker\.env -f .\docker\docker-compose.yml up -d --b
 
 ## Tai lieu
 
-- `docs/32_SubmissionRunGuide.md` — hướng dẫn nộp và chạy lại đồ án trên Windows.
-- `docs/27_UserGuide_OpenTableAndOrder.md` — hướng dẫn mở bàn và gọi món trong Windows Forms.
-- `docs/26_DemoPresentation.md` — kịch bản demo.
+- `docs/32_SubmissionRunGuide_WindowsForms.md` — hướng dẫn nộp và chạy lại đồ án trên Windows.
+- `docs/27_UserGuide_OpenTableAndOrder_WindowsForms.md` — hướng dẫn mở bàn và gọi món trong Windows Forms.
+- `docs/26_DemoPresentation_WindowsForms.md` — kịch bản demo Windows Forms.
 - `docs/11_DatabaseSchemaDesign.md` — thiết kế cơ sở dữ liệu.
 - `docker/README.md` — vận hành SQL Server Docker.
 - `database/README.md` — thứ tự và mục đích các script SQL.

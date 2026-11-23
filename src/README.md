@@ -34,4 +34,4 @@ dotnet run --project .\RestaurantManagement.WinForms\RestaurantManagement.WinFor
 
 Có thể mở `RestaurantManagement.slnx` bằng Visual Studio, chọn `RestaurantManagement.WinForms` làm Startup Project và nhấn `F5`.
 
-Hướng dẫn đầy đủ: `../README.md` và `../docs/32_SubmissionRunGuide.md`.
+Hướng dẫn đầy đủ: `../README.md` và `../docs/32_SubmissionRunGuide_WindowsForms.md`.
