@@ -26,6 +26,23 @@ public sealed class SqlServerFactAttribute : FactAttribute
 public sealed class BusinessWorkflowTests
 {
     [SqlServerFact]
+    public async Task Kitchen_status_requires_allowed_role_but_accepts_admin()
+    {
+        await using var scenario = await TestScenario.CreateAsync();
+        var service = scenario.CreateOrderService();
+
+        scenario.SetRole("CASHIER");
+        var denied = await service.SetKitchenStatusAsync(-1, 1);
+        Assert.False(denied.Succeeded);
+        Assert.Contains("không có quyền", denied.Error, StringComparison.OrdinalIgnoreCase);
+
+        scenario.SetRole("ADMIN");
+        var allowedCheck = await service.SetKitchenStatusAsync(-1, 1);
+        Assert.False(allowedCheck.Succeeded);
+        Assert.Contains("không còn", allowedCheck.Error, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [SqlServerFact]
     public async Task MoveTable_rejects_destination_below_source_guest_count()
     {
         await using var scenario = await TestScenario.CreateAsync();
@@ -363,6 +380,7 @@ internal sealed class TestScenario : IAsyncDisposable
     }
 
     public RestaurantDbContext Db { get; }
+    public void SetRole(string roleCode) => _currentUser.RoleCode = roleCode;
 
     public Employee Employee { get; private set; } = null!;
     public int BranchId => _branchId;
@@ -564,7 +582,7 @@ internal sealed class TestScenario : IAsyncDisposable
 
         public int? UserId => null;
         public string? UserName => "automation-test";
-        public string? RoleCode => "ADMIN";
+        public string? RoleCode { get; set; } = "ADMIN";
         public int? EmployeeId => null;
         public int? BranchId { get; }
         public string? BranchName => null;

@@ -13,7 +13,7 @@ Triển khai tính tiền, ghi nhận một lần thanh toán cho mỗi hóa đ�
 - Chỉ MANAGER được nhập giảm giá; CASHIER được thanh toán nhưng không thể tự áp giảm giá. ADMIN không được thanh toán vì schema yêu cầu `PaidByEmployeeId`, trong khi tài khoản ADMIN không gắn hồ sơ nhân viên.
 - Nếu còn món chờ hoặc đang chế biến, giao diện cảnh báo và yêu cầu xác nhận; service kiểm tra lại xác nhận trong transaction trước khi ghi giao dịch.
 - Ghi `Payment`, `Invoice.DiscountAmount`, trạng thái đã thanh toán và `ClosedAt`; giải phóng mọi liên kết bàn trong cùng transaction `Serializable`.
-- Trang `/Payments/Receipt` hiển thị thông tin hóa đơn, dòng món không bị hủy, giảm giá, phương thức/người thu tiền và nút in qua trình duyệt.
+- Màn hình biên nhận hiển thị thông tin hóa đơn, dòng món không bị hủy, giảm giá, phương thức/người thu tiền và chức năng in trong Windows Forms.
 
 ## Kiểm chứng
 

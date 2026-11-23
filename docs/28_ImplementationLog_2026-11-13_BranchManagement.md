@@ -65,7 +65,7 @@ Ghi chú: khi mã hoặc tên chi nhánh thay đổi, `BranchService.UpdateAsync
 - Đã bổ sung `BranchId` cho dữ liệu `Invoice` và `Employee` được dựng thủ công trong `BusinessWorkflowTests.cs` để khớp schema mới.
 - Kiểm tra tĩnh EF model: 36 entity, 13 query filter; các truy vấn đại diện (`VwPayroll`, hàng đợi bếp, `Employee`, `Attendance`) dịch được sang SQL.
 - Ngày 13/11/2026 đã sao lưu database demo (`database/backup/RestaurantManagement_20261113_pre_branch.bak`), chạy `06_branch_management.sql` rồi chạy lại `03_views.sql` trên SQL Server Docker. Kết quả: 2 chi nhánh, 4 khóa ngoại chi nhánh, ràng buộc `UQ_DiningTable_Branch_TableNumber`, `vw_Payroll` có cột `BranchId`, không còn `BranchId` NULL trên `Employee`/`Invoice`.
-- Chạy thử ứng dụng ở môi trường Development: khởi động thành công tại `http://localhost:5010`, trang chủ trả `HTTP 200`, không có lỗi runtime.
+- Chạy thử ứng dụng Windows Forms trong môi trường Development thành công, không có lỗi runtime khi mở chức năng quản lý chi nhánh.
 
 ## 7. Hạn chế còn lại
 

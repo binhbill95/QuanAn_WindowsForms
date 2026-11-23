@@ -36,22 +36,19 @@
 
 @if (Model.ShowBranchFilter)
 {
-    <form method="get" asp-action="Index" class="row g-2 mb-3">
-        <div class="col-md-4">
-            <label class="form-label small" for="branchId">Chi nhánh</label>
-            <select id="branchId" name="branchId" class="form-select">
-                <option value="">— Tất cả chi nhánh —</option>
-                @foreach (var branch in Model.Branches)
-                {
-                    <option value="@branch.Id" selected="@(Model.BranchId == branch.Id)">@branch.Name</option>
-                }
-            </select>
-        </div>
-        <div class="col-md-4 d-flex align-items-end gap-2">
-            <button type="submit" class="btn btn-outline-primary">Lọc</button>
-            <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
-        </div>
-    </form>
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        @foreach (var branch in Model.Branches)
+        {
+            <li class="nav-item" role="presentation">
+                <a class="nav-link @(Model.BranchId == branch.Id ? "active" : string.Empty)"
+                   asp-action="Index"
+                   asp-route-branchId="@branch.Id"
+                   aria-current="@(Model.BranchId == branch.Id ? "page" : null)">
+                    @branch.Name
+                </a>
+            </li>
+        }
+    </ul>
 }
 
 @if (Model.Tables.Count == 0)
@@ -79,7 +76,13 @@ else
                                         @table.StatusName
                                     </span>
                                 </div>
-                                <div class="small text-muted mt-2">@table.BranchName · @table.MaxSeats chỗ</div>
+                                <div class="small text-muted mt-2">
+                                    @if (!Model.ShowBranchFilter)
+                                    {
+                                        <span>@table.BranchName · </span>
+                                    }
+                                    @table.MaxSeats chỗ
+                                </div>
                             </div>
                             @if (Model.CanManage)
                             {
@@ -89,6 +92,7 @@ else
                                     {
                                         <form asp-action="ToggleActive" asp-route-id="@table.Id" method="post">
                                             <input type="hidden" name="isActive" value="false" />
+                                            <input type="hidden" name="branchId" value="@Model.BranchId" />
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Ngừng</button>
                                         </form>
                                     }
@@ -96,11 +100,13 @@ else
                                     {
                                         <form asp-action="ToggleActive" asp-route-id="@table.Id" method="post">
                                             <input type="hidden" name="isActive" value="true" />
+                                            <input type="hidden" name="branchId" value="@Model.BranchId" />
                                             <button type="submit" class="btn btn-sm btn-outline-success">Kích hoạt</button>
                                         </form>
                                     }
                                     <form asp-action="Delete" asp-route-id="@table.Id" method="post"
                                           onsubmit="return confirm('Xóa mềm bàn này?');">
+                                        <input type="hidden" name="branchId" value="@Model.BranchId" />
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Xóa</button>
                                     </form>
                                 </div>

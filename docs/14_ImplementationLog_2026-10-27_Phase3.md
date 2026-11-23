@@ -72,7 +72,7 @@ Web (Controller/View)
 
 ## 4. Kết quả kiểm chứng
 
-Chạy app tại `http://localhost:5010`, kiểm thử bằng `Invoke-WebRequest` + `WebRequestSession` (giữ cookie, gửi kèm antiforgery token).
+Chạy ứng dụng Windows Forms và kiểm thử nghiệp vụ bằng bộ test tích hợp SQL Server.
 
 | # | Kịch bản | Kỳ vọng | Thực tế | Kết quả |
 |---|----------|---------|---------|:-------:|
@@ -157,10 +157,11 @@ Build succeeded.
 
 ```bash
 cd docker && docker compose up -d
-cd ../src && dotnet run --project RestaurantManagement.Web
+cd ../src
+dotnet build
 ```
 
-Mở `http://localhost:5010` → tự chuyển về trang đăng nhập.
+Mở ứng dụng Windows Forms và đăng nhập bằng tài khoản demo.
 
 | Tài khoản | Mật khẩu | Vai trò |
 |-----------|----------|---------|

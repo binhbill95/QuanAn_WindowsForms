@@ -4,7 +4,7 @@
 
 Triển khai UC027–UC032 trên các view báo cáo đã có trong CSDL, không thay đổi schema. Dành cho ADMIN, OWNER và MANAGER theo ma trận quyền.
 
-**Trạng thái:** Hoàn tất triển khai, build, kiểm thử HTTP và kiểm tra UI trình duyệt.
+**Trạng thái:** Hoàn tất triển khai, build, kiểm thử nghiệp vụ và kiểm tra giao diện Windows Forms.
 
 ## Kết quả
 
@@ -26,7 +26,7 @@ Triển khai UC027–UC032 trên các view báo cáo đã có trong CSDL, không
 | Năm ngoài miền hợp lệ khi export | Bị từ chối HTTP 400 |
 | Thanh toán hóa đơn thử 2 khách, 2 phần M001 | Các view lần lượt ghi nhận doanh thu 90.000, khách theo ca/nhân viên/bàn, số lượng món 2; dữ liệu CSV khớp |
 | Các view sau khi dọn E2E | Dữ liệu giao dịch và thanh toán thử đã được xóa; công/lương hiện không có dữ liệu chấm công đã duyệt |
-| Kiểm tra UI bằng trình duyệt với MANAGER | `/Reports` và `/Payments` tải được; trạng thái rỗng phù hợp với CSDL sạch |
+| Kiểm tra giao diện với MANAGER | Màn hình báo cáo và thanh toán tải dữ liệu; trạng thái rỗng phù hợp với CSDL sạch |
 | Điều hướng tại viewport 879px | Nút hamburger đóng/mở menu đúng; không còn cuộn ngang |
 | Điều hướng sau khi nhóm menu | Trang chủ giữ lối tắt riêng; nhóm Tác nghiệp và Quản lý mở đúng các liên kết theo quyền MANAGER |
 
@@ -38,4 +38,4 @@ Triển khai UC027–UC032 trên các view báo cáo đã có trong CSDL, không
 - CSV dùng UTF-8 BOM, định dạng số bất biến và escape chuỗi có tiền tố công thức để hạn chế CSV formula injection.
 - CSDL hiện không có dữ liệu lịch sử để đối chiếu; báo cáo công/lương đang ở trạng thái rỗng cho tới khi phát sinh chấm công đã duyệt.
 - Kiểm tra UI phát hiện breakpoint của `navbar-expand-xxl` chưa khớp với tiện ích `d-sm-inline-flex`, khiến menu bung thành cột trên màn hình hẹp. Đã đổi thành `d-xxl-inline-flex`; xác minh menu ẩn mặc định, hiện khi bấm hamburger và không có overflow ngang.
-- Sau phản hồi UI, gom các đường dẫn dài thành hai menu thả xuống “Tác nghiệp” và “Quản lý”, giữ “Trang chủ” làm lối tắt, và dùng breakpoint `xl` để điều hướng bung trên màn desktop rộng. Các liên kết tiếp tục tuân theo điều kiện role hiện có; đã kiểm tra menu quản lý và các mục của MANAGER trên trình duyệt.
+- Giao diện desktop gom các chức năng nghiệp vụ thành hai nhóm rõ ràng theo vai trò. Đã kiểm tra quyền truy cập các mục quản lý và màn hình của MANAGER trong Windows Forms.

@@ -89,9 +89,8 @@ Build succeeded.
 
 | Kiểm tra | Lệnh | Kết quả |
 |----------|------|---------|
-| Trang chủ | `GET /` | `200 OK` |
-| Kết nối DB | `GET /health/db` | `{"status":"healthy","database":"RestaurantManagement","employees":4}` |
-| Cổng chạy | `launchSettings.json` | `http://localhost:5010` |
+| Giao diện mục tiêu | Windows Forms | Chạy trực tiếp trên Windows |
+| Kết nối DB | SQL Server 2022 | Container Docker `restaurant-sqlserver` |
 
 ### 6.3 Đối chiếu schema ↔ entity
 
@@ -110,7 +109,7 @@ Build succeeded.
 | 1 | `dotnet new classlib -f net9.0` → exit 127 | SDK 10 template không hỗ trợ `net9.0` | Tạo mặc định `net10.0`, ghi chú phương án hạ TFM |
 | 2 | Scaffold đặt entity trong `Infrastructure/Entities` | Mặc định `-o` tính theo project hiện tại | Dùng `Move-Item` sang `Domain/Entities`, giữ nguyên namespace đã chỉ định |
 | 3 | Cảnh báo NU1902 + NU1903 (Pkcs 9.0.11) | `Microsoft.Data.SqlClient` kéo bản cũ có lỗ hổng | Thêm PackageReference trực tiếp `Pkcs` 10.0.14 ở Infrastructure và Web |
-| 4 | `dotnet run` bỏ qua `ASPNETCORE_URLS`, chạy cổng 5010 | `launchSettings.json` được ưu tiên | Chấp nhận cổng 5010; khi cần đổi thì sửa `launchSettings.json` |
+| 4 | Cấu hình chạy ban đầu hướng tới ứng dụng web | Repo mục tiêu đã chuyển sang Windows Forms | Chạy project `RestaurantManagement.WinForms` thay vì project web |
 | 5 | Cảnh báo "Failed to determine the https port" | Dev chỉ chạy HTTP nhưng vẫn gọi `UseHttpsRedirection()` | Chỉ gọi `UseHttpsRedirection()` ngoài môi trường Development |
 | 6 | Entity view sinh thêm 10 lớp ngoài dự kiến | Scaffold lấy toàn bộ đối tượng trong DB | Giữ lại (hữu ích cho báo cáo), ghi chú rõ là keyless và chỉ đọc |
 
@@ -139,17 +138,14 @@ Build succeeded.
 
 ```bash
 # 1. SQL Server
-cd docker
-docker compose up -d
-docker compose ps          # chờ healthy
+Copy-Item .\docker\.env.example .\docker\.env
+docker compose --env-file .\docker\.env -f .\docker\docker-compose.yml up -d --build
+docker compose --env-file .\docker\.env -f .\docker\docker-compose.yml ps
 
-# 2. Ứng dụng
-cd ../src
-dotnet build
-dotnet run --project RestaurantManagement.Web
-
-# 3. Kiểm tra
-curl http://localhost:5010/health/db
+# 2. Windows Forms
+dotnet restore .\src\RestaurantManagement.slnx
+dotnet build .\src\RestaurantManagement.slnx
+dotnet run --project .\src\RestaurantManagement.WinForms\RestaurantManagement.WinForms.csproj
 ```
 
 ## 10. Việc còn lại

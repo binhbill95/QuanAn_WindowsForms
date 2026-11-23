@@ -444,7 +444,7 @@ Câu trả lời khi bị hỏi:
 | Số controller | 18 |
 | Số kiểm thử tích hợp | 11 |
 | Build hiện tại | 0 warning, 0 error |
-| Cổng chạy mặc định | `http://localhost:5010` |
+| Giao diện mục tiêu | Windows Forms desktop |
 | Tài khoản demo | `admin`, `manager`, `sale`, `thungan`, `bep` — mật khẩu `Admin@123`; CN002: `nv901`, `thungan2` |
 
 ---

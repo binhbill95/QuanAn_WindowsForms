@@ -471,6 +471,15 @@ public sealed class OrderService : IOrderService
         byte status,
         CancellationToken cancellationToken = default)
     {
+        var roleCode = _currentUser.RoleCode;
+        if (!string.Equals(roleCode, "ADMIN", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(roleCode, "OWNER", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(roleCode, "MANAGER", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(roleCode, "KITCHEN", StringComparison.OrdinalIgnoreCase))
+        {
+            return OperationResult<bool>.Failure("Tài khoản không có quyền cập nhật hàng đợi bếp.");
+        }
+
         if (status is not (1 or 2))
         {
             return OperationResult<bool>.Failure("Trạng thái bếp không hợp lệ.");
@@ -487,6 +496,12 @@ public sealed class OrderService : IOrderService
         if (detail is null)
         {
             return OperationResult<bool>.Failure("Món không còn trong hàng đợi bếp.");
+        }
+
+        if (_currentUser.BranchId.HasValue &&
+            detail.Invoice.BranchId != _currentUser.BranchId)
+        {
+            return OperationResult<bool>.Failure("Món thuộc chi nhánh khác không thể cập nhật.");
         }
 
         var expectedStatus = status == 1 ? (byte)0 : (byte)1;

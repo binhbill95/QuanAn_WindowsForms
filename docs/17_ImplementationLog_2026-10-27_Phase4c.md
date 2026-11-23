@@ -76,7 +76,7 @@ Cookie Authentication
 
 ## 4. Kết quả kiểm chứng
 
-Chạy app tại `http://localhost:5010`.
+Chạy ứng dụng Windows Forms.
 
 | # | Kịch bản | Kỳ vọng | Thực tế | Kết quả |
 |---|----------|---------|---------|:-------:|
@@ -196,8 +196,8 @@ Chạy app tại `http://localhost:5010`.
 
 ```bash
 cd docker && docker compose up -d
-cd ../src && dotnet run --project RestaurantManagement.Web
-# http://localhost:5010 → admin / Admin@123 → menu "Tài khoản"
+cd ../src
+dotnet build
 ```
 
 ## 10. Ghi chú cập nhật tài liệu

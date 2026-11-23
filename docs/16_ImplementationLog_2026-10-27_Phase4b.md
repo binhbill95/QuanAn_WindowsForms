@@ -73,7 +73,7 @@ ShiftService / ScheduleService / AttendanceService     (Infrastructure, EF Core)
 
 ## 4. Kết quả kiểm chứng
 
-Chạy app tại `http://localhost:5010`.
+Chạy ứng dụng Windows Forms.
 
 | # | Kịch bản | Kỳ vọng | Thực tế | Kết quả |
 |---|----------|---------|---------|:-------:|
@@ -192,8 +192,8 @@ CSDL trở về baseline: **6 lịch ca, 0 chấm công, 2 ca, 8 phân ca, 2 tà
 
 ```bash
 cd docker && docker compose up -d
-cd ../src && dotnet run --project RestaurantManagement.Web
-# http://localhost:5010
+cd ../src
+dotnet build
 # manager / Admin@123 → menu "Ca làm", "Lịch ca", "Chấm công"
 ```
 

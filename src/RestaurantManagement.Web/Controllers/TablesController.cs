@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagement.Application.Abstractions;
+using RestaurantManagement.Application.Models.Branches;
 using RestaurantManagement.Application.Models.Tables;
 using RestaurantManagement.Web.Models;
 
@@ -26,14 +27,20 @@ public class TablesController : Controller
     public async Task<IActionResult> Index(int? branchId, CancellationToken cancellationToken = default)
     {
         var isAdmin = User.IsInRole("ADMIN");
+        IReadOnlyList<BranchOptionDto> branches = [];
+
+        if (isAdmin)
+        {
+            branches = await _branchService.GetOptionsAsync(cancellationToken);
+            branchId ??= branches.FirstOrDefault()?.Id;
+        }
+
         return View(new DiningTablesIndexViewModel
         {
             Tables = await _tableService.GetTablesAsync(isAdmin ? branchId : null, cancellationToken),
             CanManage = CanManage(),
             BranchId = isAdmin ? branchId : null,
-            Branches = isAdmin
-                ? await _branchService.GetOptionsAsync(cancellationToken)
-                : [],
+            Branches = branches,
             ShowBranchFilter = isAdmin,
         });
     }
@@ -75,7 +82,7 @@ public class TablesController : Controller
         }
 
         TempData["SuccessMessage"] = $"Đã thêm bàn '{model.TableNumber.Trim()}'.";
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), new { branchId = model.BranchId });
     }
 
     [Authorize(Policy = "Management")]
@@ -129,7 +136,7 @@ public class TablesController : Controller
         }
 
         TempData["SuccessMessage"] = $"Đã cập nhật bàn '{model.TableNumber.Trim()}'.";
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), new { branchId = model.BranchId });
     }
 
     [Authorize(Policy = "Management")]
@@ -138,24 +145,25 @@ public class TablesController : Controller
     public async Task<IActionResult> ToggleActive(
         int id,
         bool isActive,
+        int? branchId,
         CancellationToken cancellationToken = default)
     {
         var result = await _tableService.SetTableActiveAsync(id, isActive, cancellationToken);
         TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
             ? (isActive ? "Đã kích hoạt bàn." : "Đã ngừng sử dụng bàn.")
             : result.Error;
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), new { branchId });
     }
 
     [Authorize(Policy = "Management")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Delete(int id, int? branchId, CancellationToken cancellationToken = default)
     {
         var result = await _tableService.DeleteTableAsync(id, cancellationToken);
         TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] =
             result.Succeeded ? "Đã xóa mềm bàn." : result.Error;
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index), new { branchId });
     }
 
     [Authorize(Policy = "Management")]
